@@ -4,7 +4,7 @@ Rex::Dondley::ProcessTaskArgs - easier Rex task argument handling
 
 # VERSION
 
-version 0.002
+version 0.003
 
 # SYNOPSIS
 
@@ -12,7 +12,7 @@ version 0.002
 
     task 'some_task' => sub {
       # Process args passed to task
-      my $params = process_task_args( \@_,        # arguments passed by user
+      my $params = process_task_args( \@_,                  # arguments passed by user
                                       available_key1 => 1,  # a required argument
                                       available_key2 => 0,  # an optional argument
 
@@ -37,7 +37,7 @@ version 0.002
 
 This module is designed to alleviate some of the pain of processing arguments
 passed to tasks from the command line and from other tasks with the
-`run_task()` function. you can think of it as a simpler, more specialized
+`run_task()` function. Think of it as a simpler, more specialized
 version of [Params::Validate](https://metacpan.org/pod/Params::Validate).
 
 This module supplies a single function, `process_task_args`, which accepts
@@ -52,9 +52,10 @@ corresponding to the list of available keys
 
 `process_task_args` does the following:
 
-- Ensures all require keys are given
-- If arguments are missing keys on the command line, it will assign them to
-the next avaiable key according to the order provided by the available key list
+- Ensures all required keys are given
+- If arguments do not have associated keys on the command line, it will
+assign them to the next avaiable key according to the order provided by the
+available key list
 - Replaces missing arguments with the default values, if provided
 - Ensures no extra arguments are supplied
 - Properly handles parameters passed via `run_task()` as an array
