@@ -1,0 +1,9 @@
+/MANIFEST.SKIP
+/Rex-Dondley-ProcessTaskArgs-*
+/tmp
+!*/tmp
+*~
+*.swp
+*.swo
+*.tgz
+.build
