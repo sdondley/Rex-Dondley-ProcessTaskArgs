@@ -1,1 +1,213 @@
-Initial commit
+# NAME
+
+Rex::Dondley::ProcessTaskArgs - this is what the module does
+
+# VERSION
+
+version 0.001
+
+# SYNOPSIS
+
+    use Rex::Dondley::ProcessTaskArgs;
+
+    task 'some_task' => sub {
+      # Process args passed to task
+      my $params = process_task_args( \@_,        # arguments passed by user
+                                      available_key1 => 1,  # a required argument
+                                      available_key2 => 0,  # an optional argument
+
+                                      # optional array hash for default values
+                                      [
+                                        'default_value_for_key1',
+                                        'default_value_for_key2',
+                                      ]
+                                    );
+
+      # Now retrieve the values as usual
+      my $key1 = $params->{key1};
+      my $key2 = $params->{key2};
+    };
+
+    # If no arguments are required, list of available keys can be simplified:
+    task 'another_task' => sub {
+      my $params = process_task_args( \@_, key1, key2 [ 'default_value_for_key1' ]);
+    };
+
+# DESCRIPTION
+
+This module is designed to alleviate some of the pain of processing arguments
+passed to tasks from the command line and from other tasks with the
+`run_task()` function. you can think of it as a simpler, more specialized
+version of [Params::Validate](https://metacpan.org/pod/Params::Validate).
+
+This module supplies a single function, `process_task_args`, which accepts
+three different types of arguments:
+
+- An array reference containing the original `@_` special variable, followed
+by...
+- A list containing the available keys and, optionally, which keys are
+required, followed by...
+- An optional array reference containing the default values in the order
+corresponding to the list of available keys
+
+`process_task_args` does the following:
+
+- Ensures all require keys are given
+- If arguments are missing keys on the command line, it will assign them to
+the next avaiable key according to the order provided by the available key list
+- Replaces missing arguments with the default values, if provided
+- Ensures no extra arguments are supplied
+- Properly handles parameters passed via `run_task()` as an array
+`run_task('some_task', params => [ 'some_value' ]);`
+
+## Special Edge Cases: Setting arguments to a value of 1 and using keys as
+switches
+
+A special case exists if an argument is required and has a default value and you
+are trying to set its value to "1". In such a case, your value will be
+overridden if you supplied a default value for the key in your default values
+argument.
+
+To circumvent this unwanted behavior, you must make the key optional.
+Alternatively, remove the default value from the default values array and
+process the key manually.
+
+Similarly, if you wish to use an argument as a switch, (i.e. setting a key
+without a value with `--some_key`), you must do the same.
+
+## Examples
+
+### Example #1
+
+Given the following code:
+
+    task 'another_task' => sub {
+      my $params = process_task_args( \@_, key1, key2 [ 'default_value_for_key1' ] );
+    };
+
+And the following command line command:
+
+    rex some_task
+
+`$params` will look like:
+
+    $params = { key1 => 'default_value_for_key1', key2 => undef };
+
+### Example #2
+
+Given the following code:
+
+    task 'another_task' => sub {
+      my $params = process_task_args( \@_, key1, key2 );
+    };
+
+And the following command line command:
+
+    rex some_task some_value
+
+`$params` will look like:
+
+    $params = { key1 => 'some_value', key2 => undef };
+
+### Example #3
+
+Given the following code:
+
+    task 'another_task' => sub {
+      my $params = process_task_args( \@_, key1, key2 );
+    };
+
+And the following command line command:
+
+    rex some_task some_value another_value
+
+`$params` will look like:
+
+    $params = { key1 => 'some_value', key2 => another_value };
+
+### Example #4
+
+Given the following code:
+
+    task 'another_task' => sub {
+      my $params = process_task_args( \@_, key1, key2 );
+    };
+
+And the following command line command:
+
+    rex some_task some_value --key1=another_value
+
+`$params` will look like:
+
+    $params = { key1 => 'another_value', key2 => 'some_value' };
+
+### Example #5
+
+Given the following code:
+
+    task 'another_task' => sub {
+      my $params = process_task_args( \@_, key1 => 1, key2 => 1 );
+    };
+
+And the following command line command:
+
+    rex some_task --key1=another_value
+
+**ERROR!** because `key2` is required and it was not supplied.
+
+# FUNCTIONS
+
+## process\_task\_args($array\_ref,
+                          $available\_key1 \[ => 1|0 \],
+                          $available\_key2 \[ => 1|0 \],
+                          ...,
+                          \[ $array\_ref \];
+
+# SUPPORT
+
+## Perldoc
+
+You can find documentation for this module with the perldoc command.
+
+    perldoc Rex::Dondley::ProcessTaskArgs
+
+## Websites
+
+The following websites have more information about this module, and may be of help to you. As always,
+in addition to those websites please use your favorite search engine to discover more resources.
+
+- MetaCPAN
+
+    A modern, open-source CPAN search engine, useful to view POD in HTML format.
+
+    [https://metacpan.org/release/Rex-Dondley-ProcessTaskArgs](https://metacpan.org/release/Rex-Dondley-ProcessTaskArgs)
+
+## Source Code
+
+The code is open to the world, and available for you to hack on. Please feel free to browse it and play
+with it, or whatever. If you want to contribute patches, please send me a diff or prod me to pull
+from your repository :)
+
+[https://github.com/sdondley/Rex-Dondley-ProcessTaskArgs](https://github.com/sdondley/Rex-Dondley-ProcessTaskArgs)
+
+    git clone git://github.com/sdondley/Rex-Dondley-ProcessTaskArgs.git
+
+# BUGS AND LIMITATIONS
+
+You can make new bug reports, and view existing ones, through the
+web interface at [https://github.com/sdondley/Rex-Dondley-ProcessTaskArgs/issues](https://github.com/sdondley/Rex-Dondley-ProcessTaskArgs/issues).
+
+# INSTALLATION
+
+See perlmodinstall for information and options on installing Perl modules.
+
+# AUTHOR
+
+Steve Dondley <s@dondley.com>
+
+# COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2020 by Steve Dondley.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
