@@ -97,7 +97,7 @@ sub process_task_args {
 # methods here
 
 1; # Magic true value
-# ABSTRACT: this is what the module does
+# ABSTRACT: easier Rex task argument handling
 
 __END__
 
@@ -272,8 +272,4 @@ B<ERROR!> because C<key2> is required and it was not supplied.
 
 =head1 FUNCTIONS
 
-=function process_task_args($array_ref,
-                          $available_key1 [ => 1|0 ],
-                          $available_key2 [ => 1|0 ],
-                          ...,
-                          [ $array_ref ];
+=function process_task_args($array_ref, $available_key1 [ => 1|0 ], $available_key2 [ => 1|0 ], ..., [ $array_ref ];
