@@ -1,4 +1,7 @@
-Revision history for Rex-Dondley-ProcessTaskArgs
+Revision history for {{$dist->name}}
+
+{{$NEXT}}
+fix doc typos
 
 0.002     2020-04-15 16:31:02-04:00 America/New_York
 

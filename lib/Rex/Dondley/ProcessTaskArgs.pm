@@ -113,7 +113,7 @@ Helper function for processing arguments passed to a Rex task.
 
   task 'some_task' => sub {
     # Process args passed to task
-    my $params = process_task_args( \@_,        # arguments passed by user
+    my $params = process_task_args( \@_,                  # arguments passed by user
                                     available_key1 => 1,  # a required argument
                                     available_key2 => 0,  # an optional argument
 
@@ -138,7 +138,7 @@ Helper function for processing arguments passed to a Rex task.
 
 This module is designed to alleviate some of the pain of processing arguments
 passed to tasks from the command line and from other tasks with the
-C<run_task()> function. you can think of it as a simpler, more specialized
+C<run_task()> function. Think of it as a simpler, more specialized
 version of L<Params::Validate>.
 
 This module supplies a single function, C<process_task_args>, which accepts
@@ -161,10 +161,11 @@ C<process_task_args> does the following:
 
 =over 1
 
-=item Ensures all require keys are given
+=item Ensures all required keys are given
 
-=item If arguments are missing keys on the command line, it will assign them to
-the next avaiable key according to the order provided by the available key list
+=item If arguments do not have associated keys on the command line, it will
+assign them to the next avaiable key according to the order provided by the
+available key list
 
 =item Replaces missing arguments with the default values, if provided
 
