@@ -1,10 +1,10 @@
 # NAME
 
-Rex::Dondley::ProcessTaskArgs - this is what the module does
+Rex::Dondley::ProcessTaskArgs - easier Rex task argument handling
 
 # VERSION
 
-version 0.001
+version 0.002
 
 # SYNOPSIS
 
@@ -157,11 +157,7 @@ And the following command line command:
 
 # FUNCTIONS
 
-## process\_task\_args($array\_ref,
-                          $available\_key1 \[ => 1|0 \],
-                          $available\_key2 \[ => 1|0 \],
-                          ...,
-                          \[ $array\_ref \];
+## process\_task\_args($array\_ref, $available\_key1 \[ => 1|0 \], $available\_key2 \[ => 1|0 \], ..., \[ $array\_ref \];
 
 # SUPPORT
 
