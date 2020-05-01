@@ -52,7 +52,7 @@ sub process_task_args {
     if (!$is_valid) {
       push @invalid_keys, $key;
     }
-  die ("Invalid key(s): '" . join (', ', @invalid_keys) . "' called from ". (caller)[1] . ', line ' . (caller)[2]) if @invalid_keys;
+  die ("Invalid key(s): '" . join (', ', @invalid_keys) . "' from ". (caller)[1] . ', line ' . (caller)[2]) if @invalid_keys;
   }
 
 
@@ -72,7 +72,7 @@ sub process_task_args {
         last;
       }
     }
-    die ('Too many array arguments passed. Called from ' . (caller)[1] . ', line ' . (caller)[2] ) if @all_array_args;
+    die ('Too many array arguments passed. From ' . (caller)[1] . ', line ' . (caller)[2] ) if @all_array_args;
 
   }
 
@@ -85,7 +85,7 @@ sub process_task_args {
       push @missing_keys, $rkey unless $defaults{$rkey};
     }
   }
-  die ("Missing required key(s): '" . join (', ', @missing_keys) . "' called from " . (caller)[1] . ', line ' . (caller)[2]) if @missing_keys;
+  die ("Missing required key(s): '" . join (', ', @missing_keys) . "' from " . (caller)[1] . ', line ' . (caller)[2]) if @missing_keys;
 
   # handle edge case when user passes key without value
   foreach my $key (keys %passed_params) {
