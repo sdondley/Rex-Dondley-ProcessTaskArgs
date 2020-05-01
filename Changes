@@ -1,6 +1,6 @@
-Revision history for {{$dist->name}}
+Revision history for Rex-Dondley-ProcessTaskArgs
 
-{{$NEXT}}
+0.006     2020-05-01 14:47:59-04:00 America/New_York
 - improve doc formats
 - make error messages more consisten
 
