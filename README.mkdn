@@ -4,7 +4,7 @@ Rex::Dondley::ProcessTaskArgs - easier Rex task argument handling
 
 # VERSION
 
-version 0.003
+version 0.004
 
 # SYNOPSIS
 
@@ -61,8 +61,7 @@ available key list
 - Properly handles parameters passed via `run_task()` as an array
 `run_task('some_task', params => [ 'some_value' ]);`
 
-## Special Edge Cases: Setting arguments to a value of 1 and using keys as
-switches
+## Special Edge Cases: Setting arguments to a value of 1 and using keys as switches
 
 A special case exists if an argument is required and has a default value and you
 are trying to set its value to "1". In such a case, your value will be

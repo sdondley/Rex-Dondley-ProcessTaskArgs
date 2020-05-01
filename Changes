@@ -1,6 +1,6 @@
-Revision history for {{$dist->name}}
+Revision history for Rex-Dondley-ProcessTaskArgs
 
-{{$NEXT}}
+0.004     2020-05-01 09:32:32-04:00 America/New_York
 - add caller information to errors
 - added tests
 
