@@ -72,7 +72,7 @@ sub process_task_args {
         last;
       }
     }
-    die ('Too many array arguments passed. From ' . (caller)[1] . ', line ' . (caller)[2] ) if @all_array_args;
+    die ('Too many array arguments passed from ' . (caller)[1] . ', line ' . (caller)[2] ) if @all_array_args;
 
   }
 
@@ -150,13 +150,13 @@ three different types of arguments:
 
 =over 1
 
-=item An array reference containing the original C<@_> special variable, followed
+=item * An array reference containing the original C<@_> special variable, followed
 by...
 
-=item A list containing the available keys and, optionally, which keys are
+=item * A list containing the available keys and, optionally, which keys are
 required, followed by...
 
-=item An optional array reference containing the default values in the order
+=item * An optional array reference containing the default values in the order
 corresponding to the list of available keys
 
 =back
@@ -165,17 +165,17 @@ C<process_task_args> does the following:
 
 =over 1
 
-=item Ensures all required keys are given
+=item * Ensures all required keys are given
 
-=item If arguments do not have associated keys on the command line, it will
+=item * If arguments do not have associated keys on the command line, it will
 assign them to the next avaiable key according to the order provided by the
 available key list
 
-=item Replaces missing arguments with the default values, if provided
+=item * Replaces missing arguments with the default values, if provided
 
-=item Ensures no extra arguments are supplied
+=item * Ensures no extra arguments are supplied
 
-=item Properly handles parameters passed via C<run_task()> as an array
+=item * Properly handles parameters passed via C<run_task()> as an array
 C<run_task('some_task', params =E<gt> [ 'some_value' ]);>
 
 =back
