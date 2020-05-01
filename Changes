@@ -1,4 +1,7 @@
-Revision history for Rex-Dondley-ProcessTaskArgs
+Revision history for {{$dist->name}}
+
+{{$NEXT}}
+- add caller information to errors
 
 0.003     2020-04-15 16:36:06-04:00 America/New_York
 fix doc typos

@@ -1,5 +1,9 @@
 package Rex::Dondley::ProcessTaskArgs ;
 
+require Exporter;
+our @ISA = qw(Exporter);
+our @EXPORT = 'process_task_args';
+
 # checks validity of args passed to functions and assigns them to appropriate keys
 # Accept 3 sets of args:
 # first arg is reference to parameters passed by user to task
@@ -48,7 +52,7 @@ sub process_task_args {
     if (!$is_valid) {
       push @invalid_keys, $key;
     }
-  die ("Invalid key(s): '" . join (', ', @invalid_keys) . "'") if @invalid_keys;
+  die ("Invalid key(s): '" . join (', ', @invalid_keys) . "' called from ". (caller)[1] . ', line ' . (caller)[2]) if @invalid_keys;
   }
 
 
@@ -68,7 +72,7 @@ sub process_task_args {
         last;
       }
     }
-    die ('Too many array arguments passed.') if @all_array_args;
+    die ('Too many array arguments passed. Called from ' . (caller)[1] . ', line ' . (caller)[2] ) if @all_array_args;
 
   }
 
@@ -81,7 +85,7 @@ sub process_task_args {
       push @missing_keys, $rkey unless $defaults{$rkey};
     }
   }
-  die ("Missing required key(s): '" . join (', ', @missing_keys) . "'") if @missing_keys;
+  die ("Missing required key(s): '" . join (', ', @missing_keys) . "' called from " . (caller)[1] . ', line ' . (caller)[2]) if @missing_keys;
 
   # handle edge case when user passes key without value
   foreach my $key (keys %passed_params) {
@@ -176,8 +180,7 @@ C<run_task('some_task', params =E<gt> [ 'some_value' ]);>
 
 =back
 
-=head2 Special Edge Cases: Setting arguments to a value of 1 and using keys as
-switches
+=head2 Special Edge Cases: Setting arguments to a value of 1 and using keys as switches
 
 A special case exists if an argument is required and has a default value and you
 are trying to set its value to "1". In such a case, your value will be
