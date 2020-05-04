@@ -1,5 +1,8 @@
 package Rex::Dondley::ProcessTaskArgs ;
 
+use strict;
+use warnings
+
 require Exporter;
 our @ISA = qw(Exporter);
 our @EXPORT = 'process_task_args';
