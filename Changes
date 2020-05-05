@@ -1,6 +1,6 @@
 Revision history for Rex-Dondley-ProcessTaskArgs
 
-{{$NEXT}}
+0.008     2020-05-04 20:34:12-04:00 America/New_York
 - added strict/warnings pragmas
 
 0.007     2020-05-03 12:45:42-04:00 America/New_York
