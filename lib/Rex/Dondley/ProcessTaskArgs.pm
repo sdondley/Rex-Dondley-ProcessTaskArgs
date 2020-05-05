@@ -1,7 +1,7 @@
 package Rex::Dondley::ProcessTaskArgs ;
 
 use strict;
-use warnings
+use warnings;
 
 require Exporter;
 our @ISA = qw(Exporter);
@@ -13,7 +13,7 @@ our @EXPORT = 'process_task_args';
 # next set of args is a list of allowed params which can also indicate required params
 # last arg is an array hash for default values corresponding to each allowed params
 sub process_task_args {
-  if (ref $_[0] != 'ARRAY') {
+  if (!$_[0] || (ref $_[0]) ne 'ARRAY') {
     die 'First argument must be an array ref to user supplied arguments.';
   }
 
@@ -29,7 +29,7 @@ sub process_task_args {
   my @unkeyed_args  = @{$passed_in->[1]};
   my @defaults      = ref $_[-1] ? @{$_[-1]} : ();
   my @valid_args    = @_;
-  my @key_list      = grep { $_ && $_ != 1 && ref $_ ne 'ARRAY' } @_;
+  my @key_list      = grep { $_ && $_ ne '1' && (ref $_) ne 'ARRAY' } @_;
 
   my %defaults = ();
   my $count = 0;
@@ -39,12 +39,14 @@ sub process_task_args {
 
   # create a hash of valid and required keys
   # assumes all values are not required if @valid_args do not contain required value
-  my %valid_keys;
-  if ($valid_args[1] != 1 && $valid_args[1] ) { # checks to see if list contains required values
+  my %valid_keys = ();
+  if ((exists $valid_args[1] && ($valid_args[1] !~ /^0|1$/)) || scalar @valid_args == 1) { # checks to see if list contains required values
     foreach my $arg (@valid_args) {
       $valid_keys{$arg} = 0;
     }
   } else {
+    use Data::Dumper qw(Dumper);
+    print STDERR Dumper \@valid_args;
     %valid_keys = @valid_args;
   }
 
@@ -84,7 +86,7 @@ sub process_task_args {
   my @missing_keys;
 
   foreach my $rkey(@reqd_keys) {
-    if (!exists $passed_params{$rkey} || $passed_params{$rkey} == 1) {
+    if (!exists $passed_params{$rkey} || $passed_params{$rkey} eq '1') {
       push @missing_keys, $rkey unless $defaults{$rkey};
     }
   }
@@ -92,7 +94,7 @@ sub process_task_args {
 
   # handle edge case when user passes key without value
   foreach my $key (keys %passed_params) {
-    if ($passed_params{$key} == 1 && $valid_keys{$key}) {
+    if ($passed_params{$key} eq '1' && $valid_keys{$key}) {
       delete $passed_params{$key};
     }
   }
