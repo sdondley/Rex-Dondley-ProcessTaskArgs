@@ -45,8 +45,6 @@ sub process_task_args {
       $valid_keys{$arg} = 0;
     }
   } else {
-    use Data::Dumper qw(Dumper);
-    print STDERR Dumper \@valid_args;
     %valid_keys = @valid_args;
   }
 
