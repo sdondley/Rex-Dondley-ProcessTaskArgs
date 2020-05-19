@@ -28,6 +28,7 @@ sub process_task_args {
   my %passed_params = %{$passed_in->[0]};
   my @unkeyed_args  = @{$passed_in->[1]};
   my @defaults      = ref $_[-1] ? @{$_[-1]} : ();
+  pop @_ if @defaults;
   my @valid_args    = @_;
   my @key_list      = grep { $_ && $_ ne '1' && (ref $_) ne 'ARRAY' } @_;
 
