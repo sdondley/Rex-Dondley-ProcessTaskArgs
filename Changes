@@ -1,5 +1,8 @@
 Revision history for Rex-Dondley-ProcessTaskArgs
 
+{{$NEXT}}
+- return an ordered array of values in array context
+
 0.010     2020-05-19 16:35:07-04:00 America/New_York
 - fixed spurious warning
 - add an extra test

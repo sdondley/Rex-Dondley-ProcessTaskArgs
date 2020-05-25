@@ -40,13 +40,21 @@ sub process_task_args {
 
   # create a hash of valid and required keys
   # assumes all values are not required if @valid_args do not contain required value
+  my @ordered_keys;
   my %valid_keys = ();
   if ((exists $valid_args[1] && ($valid_args[1] !~ /^0|1$/)) || scalar @valid_args == 1) { # checks to see if list contains required values
     foreach my $arg (@valid_args) {
       $valid_keys{$arg} = 0;
+      @ordered_keys = @valid_args;
     }
   } else {
     %valid_keys = @valid_args;
+    my $count = 0;
+    foreach my $key (@valid_args) {
+      if (!($count++ % 2)) {
+        push @ordered_keys, $key;
+      }
+    }
   }
 
   # check to see if passed parameters are valid
@@ -100,7 +108,13 @@ sub process_task_args {
   my %return_hash = (%defaults, %passed_params);
 
 
-  return \%return_hash;
+
+  if (wantarray) {
+    my @blah = @return_hash{ @ordered_keys };
+    return @blah;
+  } else {
+    return \%return_hash;
+  }
 }
 # methods here
 
