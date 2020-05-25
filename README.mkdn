@@ -4,7 +4,7 @@ Rex::Dondley::ProcessTaskArgs - easier Rex task argument handling
 
 # VERSION
 
-version 0.011
+version 0.012
 
 # SYNOPSIS
 
@@ -32,6 +32,10 @@ version 0.011
     task 'another_task' => sub {
       my $params = process_task_args( \@_, key1, key2 [ 'default_value_for_key1' ]);
     };
+
+    # Params can also be returned in an array. The returned order is the same as
+    # the order of the list of available keys.
+    my ($one, $two, $three) = process_task_args( \@_, one => 1, two => 2, three => 3 );
 
 # DESCRIPTION
 
@@ -89,25 +93,26 @@ And the following command line command:
 
     rex some_task
 
-`$params` will look like:
+`$params` will be:
 
-    $params = { key1 => 'default_value_for_key1', key2 => undef };
+    { key1 => 'default_value_for_key1', key2 => undef };
 
 ### Example #2
 
 Given the following code:
 
     task 'another_task' => sub {
-      my $params = process_task_args( \@_, key1, key2 );
+      my ($key1, $key2) = process_task_args( \@_, key1, key2 [ 'default_value_for_key1' ] );
     };
 
 And the following command line command:
 
-    rex some_task some_value
+    rex some_task one two
 
-`$params` will look like:
+`$key1` will have a value of \`one\` and `$key2` will have a value of \`two\`.
 
-    $params = { key1 => 'some_value', key2 => undef };
+This examples demonstrates that the function will return an array of values in
+an array context.
 
 ### Example #3
 
@@ -119,11 +124,27 @@ Given the following code:
 
 And the following command line command:
 
+    rex some_task some_value
+
+`$params` will be:
+
+    { key1 => 'some_value', key2 => undef };
+
+### Example #4
+
+Given the following code:
+
+    task 'another_task' => sub {
+      my $params = process_task_args( \@_, key1, key2 );
+    };
+
+And the following command line command:
+
     rex some_task some_value another_value
 
-`$params` will look like:
+`$params` will be:
 
-    $params = { key1 => 'some_value', key2 => another_value };
+    { key1 => 'some_value', key2 => another_value };
 
 ### Example #4
 
@@ -137,11 +158,11 @@ And the following command line command:
 
     rex some_task some_value --key1=another_value
 
-`$params` will look like:
+`$params` will be:
 
-    $params = { key1 => 'another_value', key2 => 'some_value' };
+    { key1 => 'another_value', key2 => 'some_value' };
 
-### Example #5
+### Example #6
 
 Given the following code:
 
@@ -157,7 +178,12 @@ And the following command line command:
 
 # FUNCTIONS
 
-## process\_task\_args($array\_ref, $available\_key1 \[ => 1|0 \], $available\_key2 \[ => 1|0 \], ..., \[ $array\_ref \];
+## my $params = process\_task\_args($array\_ref, $available\_key1 \[ => 1|0 \], $available\_key2 \[ => 1|0 \], ..., \[ $array\_ref \];
+=function my @values = process\_task\_args($array\_ref, $available\_key1 \[ => 1|0 \], $available\_key2 \[ => 1|0 \], ..., \[ $array\_ref \];
+
+The function will return values with keys as a hash reference in a scalar
+contect or as array with just the value depending on context. See ["SYNOPSIS"](#synopsis)
+and exmaples above for usage instructions.
 
 # SUPPORT
 
