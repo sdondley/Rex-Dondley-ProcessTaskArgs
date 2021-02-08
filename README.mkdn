@@ -4,7 +4,7 @@ Rex::Dondley::ProcessTaskArgs - easier Rex task argument handling
 
 # VERSION
 
-version 0.012
+version 0.013
 
 # SYNOPSIS
 
